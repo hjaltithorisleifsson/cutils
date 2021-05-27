@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include "../main/struint32map.h"
+#include "../main/strintmap.h"
 
 int test_init() {
 	const float lf = 0.75;
@@ -13,8 +13,8 @@ int test_init() {
 
 	int tr = 0;
 
-	struint32map table;
-	init_struint32map_clf(cap, lf, &table);
+	strintmap table;
+	init_strintmap_clf(cap, lf, &table);
 	if (table.capacity != cap) {
 		fprintf(stderr, "Expected table capacity: %u\n", table.capacity);
 		fprintf(stderr, "Actual table capacity: %u\n", cap);
@@ -45,7 +45,7 @@ int test_init() {
 	}
 
 	uint32_t idx;
-	struint32* e;
+	strint* e;
 	for (idx = 0; idx < cap; ++idx) {
 		e = table.entries + idx;
 		if (e->key != 0) {
@@ -59,52 +59,52 @@ int test_init() {
 		}
 	}
 
-	free_struint32map(&table);
+	free_strintmap(&table);
 	return tr;
 }
 
 int test_resize() {
-	struint32map table;
-	init_struint32map_clf(2, 0.75, &table);
-	put_struint32map("hjalti", 24, &table);
-	resize_struint32map(&table);
-	print_struint32map(&table, stderr);
-	free_struint32map(&table);
+	strintmap table;
+	init_strintmap_clf(2, 0.75, &table);
+	put_strintmap("hjalti", 24, &table);
+	resize_strintmap(&table);
+	print_strintmap(&table, stderr);
+	free_strintmap(&table);
 	return 0;
 }
 
 int test_put() {
-	struint32map table;
-	init_struint32map_clf(2, 0.75, &table);
-	put_struint32map("hjalti", 1, &table);
-	print_struint32map(&table, stderr);
-	put_struint32map("thor", 2, &table);
-	print_struint32map(&table, stderr);
-	free_struint32map(&table);
+	strintmap table;
+	init_strintmap_clf(2, 0.75, &table);
+	put_strintmap("hjalti", 1, &table);
+	print_strintmap(&table, stderr);
+	put_strintmap("thor", 2, &table);
+	print_strintmap(&table, stderr);
+	free_strintmap(&table);
 	return 0;
 }
 
 int test_contains() {
-	struint32map table;
-	init_struint32map_clf(2, 0.75, &table);
-	put_struint32map("hjalti", 1, &table);
-	if (!contains_struint32map("hjalti", &table)) {
+	strintmap table;
+	init_strintmap_clf(2, 0.75, &table);
+	put_strintmap("hjalti", 1, &table);
+	if (!contains_strintmap("hjalti", &table)) {
 		fprintf(stderr, "Does not contain key \"hjalti\"");
 	}
-	free_struint32map(&table);
+	free_strintmap(&table);
 	return 0;
 }
 
 int test_removekey() {
-	struint32map table;
-	init_struint32map_clf(2, 0.75, &table);
-	put_struint32map("hjalti", 1, &table);
-	removekey_struint32map("hjalti", &table);
+	strintmap table;
+	init_strintmap_clf(2, 0.75, &table);
+	put_strintmap("hjalti", 1, &table);
+	removekey_strintmap("hjalti", &table);
 
-	if (contains_struint32map("hjalti", &table)) {
+	if (contains_strintmap("hjalti", &table)) {
 		fprintf(stderr, "Does still contain key \"hjalti\"");
 	}
-	free_struint32map(&table);
+	free_strintmap(&table);
 	return 0;
 }
 
