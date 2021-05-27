@@ -8,7 +8,7 @@
 #include "strintmap.h"
 
 void print_strintmap(strintmap* table, FILE* outstream) {
-	int idx;
+	uint32_t idx;
 	for (idx = 0; idx < table->capacity; ++idx) {
 		fprintf(outstream, "idx=%u, key=%s, value=%u\n", idx, table->entries[idx].key, table->entries[idx].value);
 	}
@@ -22,28 +22,28 @@ void init_strintmap_clf(uint32_t capacity, float loadfactor, strintmap* table) {
 	table->capacity = capacity;
 	table->capm1 = capacity - 1;
 	table->loadfactor = loadfactor;
-	table->maxsize = (int) (capacity * loadfactor);
+	table->maxsize = (uint32_t) (capacity * loadfactor);
 }
 
 void init_strintmap_c(uint32_t capacity, strintmap* table) {
-	init_strintmap_clf(capacity, DEFAULT_LOAD_FACTOR, table);
+	init_strintmap_clf(capacity, DEFAULT_MAP_LOAD_FACTOR, table);
 }
 
 void init_strintmap(strintmap* table) {
-	init_strintmap_c(DEFAULT_CAPACITY, table);
+	init_strintmap_c(DEFAULT_MAP_CAPACITY, table);
 }
 
 void resize_strintmap(strintmap* table) {
-	int ocap = table->capacity;
-	int ncap = 2 * ocap;
-	int ncapm1 = ncap - 1;
+	uint32_t ocap = table->capacity;
+	uint32_t ncap = 2 * ocap;
+	uint32_t ncapm1 = ncap - 1;
 
 	strint* nentries = (strint*) malloc(ncap * sizeof(strint));
 	memset(nentries, 0, ncap * sizeof(strint));
 
 	strint* oentries = table->entries;
 
-	int i,j;
+	uint32_t i,j;
 	strint* oe;
 	strint* ne;
 	for (i = 0; i < ocap; ++i) {
@@ -60,7 +60,7 @@ void resize_strintmap(strintmap* table) {
 	free(oentries);
 	table->entries = nentries;
 	table->capacity = ncap;
-	table->maxsize = ncap * table->loadfactor;
+	table->maxsize = (uint32_t) (ncap * table->loadfactor);
 }
 
 void put_strintmap(char* key, int value, strintmap* table) {
@@ -69,8 +69,8 @@ void put_strintmap(char* key, int value, strintmap* table) {
 	}
 
 	strint* entries = table->entries;
-	int capm1 = table->capm1;
-	int idx = strhash32(key) & capm1;
+	uint32_t capm1 = table->capm1;
+	uint32_t idx = strhash32(key) & capm1;
 	strint* e;
 	while ((e = entries + idx)->key && strcmp(e->key, key)) {
 		idx = (idx + 1) & capm1;
@@ -82,8 +82,8 @@ void put_strintmap(char* key, int value, strintmap* table) {
 
 int get_strintmap(char* key, strintmap* table) {
 	strint* entries = table->entries;
-	int capm1 = table->capm1;
-	int idx = strhash32(key) & capm1;
+	uint32_t capm1 = table->capm1;
+	uint32_t idx = strhash32(key) & capm1;
 	strint* e;
 	while ((e = entries + idx)->key) {
 		if (strcmp(key, e->key) == 0) {
@@ -97,8 +97,8 @@ int get_strintmap(char* key, strintmap* table) {
 
 bool contains_strintmap(char* key, strintmap* table) {
 	strint* entries = table->entries;
-	int capm1 = table->capm1;
-	int idx = strhash32(key) & capm1;
+	uint32_t capm1 = table->capm1;
+	uint32_t idx = strhash32(key) & capm1;
 	strint* e;
 	while ((e = entries + idx)->key) {
 		if (strcmp(key, e->key) == 0) {
@@ -111,8 +111,8 @@ bool contains_strintmap(char* key, strintmap* table) {
 
 void removekey_strintmap(char* key, strintmap* table) {
 	strint* entries = table->entries;
-	int capm1 = table->capm1;
-	int idx = strhash32(key) & capm1;
+	uint32_t capm1 = table->capm1;
+	uint32_t idx = strhash32(key) & capm1;
 	strint* e;
 	while ((e = entries + idx)->key) {
 		if (strcmp(key, e->key) == 0) {

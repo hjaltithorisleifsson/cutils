@@ -1,8 +1,8 @@
 #ifndef STRINTMAP_H_
 #define STRINTMAP_H_
 
-#define DEFAULT_CAPACITY 16
-#define DEFAULT_LOAD_FACTOR 0.75
+#define DEFAULT_MAP_CAPACITY 16
+#define DEFAULT_MAP_LOAD_FACTOR 0.75
 
 typedef struct strint {
 	char* key;
