@@ -60,6 +60,7 @@ void resize_strintmap(strintmap* table) {
 	free(oentries);
 	table->entries = nentries;
 	table->capacity = ncap;
+	table->capm1 = ncapm1;
 	table->maxsize = (uint32_t) (ncap * table->loadfactor);
 }
 

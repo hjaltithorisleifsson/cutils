@@ -59,6 +59,7 @@ void resize_strset(strset* set) {
 	free(oentries);
 	set->entries = nentries;
 	set->capacity = ncap;
+	set->capm1 = ncapm1;
 	set->maxsize = (uint32_t) (ncap * set->loadfactor);
 }
 
